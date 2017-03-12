@@ -138,4 +138,15 @@ for lg in juego.grupos:
 		assert (len (grupo.casilleros) == 3)
 		for lc in grupo.casilleros:
 			assert (len (lc) == 3)
-
+print "\tComprobando clonar"
+juego =  Juego (2)
+juego.establecerValor(0,1, 1,1, 3)
+clon = juego.clonar()
+assert (juego.grupos[0][1].casilleros[1][1].valor == 3)
+assert (clon.grupos[0][1].casilleros[1][1].valor == 3)
+clon.establecerValor(0,1, 1,1, 2)
+assert (juego.grupos[0][1].casilleros[1][1].valor == 3)
+assert (clon.grupos[0][1].casilleros[1][1].valor == 2)
+clon.establecerValor(0,0, 0,0, 1)
+assert (juego.grupos[0][0].casilleros[0][0].valor is None)
+assert (clon.grupos[0][0].casilleros[0][0].valor == 1)

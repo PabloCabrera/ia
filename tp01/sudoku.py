@@ -1,4 +1,8 @@
 from sys import stdout
+import time
+import random
+
+suposiciones = 0
 
 class Casillero:
 	def __init__ (casillero, maximoNumero):
@@ -23,7 +27,7 @@ class Casillero:
 				casillero.valor = numero
 			casillero.conocido  = True
 		elif (posibilidades == 0):
-			raise Inconsistencia (casillero)
+			raise Inconsistencia ("Valor duplicado: "+ str (casillero.valor ))
 
 	def esConocido (casillero):
 		return casillero.conocido
@@ -86,7 +90,7 @@ class GrupoCasilleros:
 					lista_definidos.append (casillero.valor)
 		conjunto_definidos = set (lista_definidos)
 		if (len (conjunto_definidos) < len (lista_definidos)):
-			raise Inconsistencia ()
+			raise Inconsistencia ("Grupo inconsistente")
 
 
 	def imprimirFila (grupo, fila):
@@ -122,18 +126,20 @@ class Juego:
 	def establecerValor (juego, gx, gy, cx, cy, valor):
 		juego.grupos[gx][gy].establecerValor (cx, cy, valor)
 
-	def resolver (juego):
+	def resolver (juego, mostrarExcepcion=True):
+		juego.comprobarConsistencia ()
 		salir = False;
 		try:
 			while (not (juego.estaResuelto () or salir)):
 				cantidadCambios = juego.actualizarCasilleros ()
 				if (cantidadCambios == 0):
-					# juego.resolverAdivinando ()
-					print "No hay informacion suficiente para resolver el juego"
+					juego.resolverAdivinando (mostrarExcepcion)
+					# print "No hay informacion suficiente para resolver el juego"
 					salir = True
-			return True
+			return juego.estaResuelto()
 		except Inconsistencia as inconsistencia:
-			print inconsistencia
+			if mostrarExcepcion:
+				print inconsistencia
 			return False
 
 	def estaResuelto (juego):
@@ -227,7 +233,7 @@ class Juego:
 					lista_valores.append (casillero.valor)
 		conjunto_valores = set (lista_valores)
 		if (len (conjunto_valores) < len (lista_valores)):
-			raise Inconsistencia ()
+			raise Inconsistencia ("Fila inconsistente")
 
 	def comprobarConsistenciaColumnas (juego):
 		for gx in (range (0, juego.tamanio)):
@@ -243,42 +249,74 @@ class Juego:
 					lista_valores.append (casillero.valor)
 		conjunto_valores = set (lista_valores)
 		if (len (conjunto_valores) < len (lista_valores)):
-			raise Inconsistencia ()
+			raise Inconsistencia ("Columna inconsistente")
 
-	def resolverAdivinando (juego):
-		clon = juego.clonar ()
-		while (clon.suponerSiguiente ()):
-			if (clon.resolver ()):
-				juego.copiarValoresJuego (clon)
-				return True;
-		return False;
+	def resolverAdivinando (juego, mostrarExcepcion=True):
+		resuelto = False
+		posibilidades = 2
+		while (not resuelto and (posibilidades <= juego.tamanio**2)):
+			indice = 0
+			if mostrarExcepcion: print ("Buscando reemplazos para casilleros con %i posibles valores" %(posibilidades))
+			while (not resuelto and (indice < juego.tamanio**4)):
+				cy = (indice // juego.tamanio**0) % juego.tamanio
+				cx = (indice // juego.tamanio**1) % juego.tamanio
+				gy = (indice // juego.tamanio**2) % juego.tamanio
+				gx = (indice // juego.tamanio**3) % juego.tamanio
+				if mostrarExcepcion: print "Adivinando valor para casillero [%i][%i][%i][%i]" %(gx,gy, cx,cy)
+				casillero = juego.grupos[gx][gy].casilleros[cx][cy]
+				if (not (casillero.esConocido ()) and (len (casillero.posibles) == posibilidades)):
+					lista_posibles = list (casillero.posibles)
+					indice_posible = 0
+					while (indice_posible < len (lista_posibles)):
+						valor_supuesto = lista_posibles[indice_posible]
+						clon = juego.clonar ()
+						clon.establecerValor (gx,gy, cx,cy, valor_supuesto)
+						global suposiciones
+						suposiciones += 1
+						if suposiciones % 1000 == 0:
+							print "Suposicion N" + str (suposiciones)
+							clon.imprimir()
+						#print ("Suponiendo valor %i en posicion [%i][%i][%i][%i]" %(valor_supuesto, gx,gy, cx,cy) )
+						#clon.imprimir()
+						try:
+							if (clon.resolver (mostrarExcepcion=False)):
+								juego.copiarValoresJuego (clon)
+								resuelto = True
+						except Inconsistencia as inconsistencia:
+							pass
+						indice_posible += 1
+				indice += 1
+			posibilidades += 1
+		if (resuelto and mostrarExcepcion):
+			print "Juego resuelto."
+		if ((not resuelto) and mostrarExcepcion):
+			print "El juego no tiene solucion."
+		return resuelto;
 
 	def clonar (juego):
 		clon = Juego (juego.tamanio)
-		for gx in (range (0, tamanio)):
-		 for gy in (range (0, tamanio)):
-		  for cx in (range (0, tamanio)):
-		   for cy in (range (0, tamanio)):
-		    casillero = juego.grupos[gx][gy].casilleros[cx][cy]
-		    if (casillero.esConocido ()):
-		     clon.establecerValor (gx, gy, cx, cy, casilllero.valor)
-		    else:
-		     clon.grupos[gx][gy].casilleros[cx][cy].posibles = list (casillero.posibles)
+		clon.copiarValoresJuego (juego)
+		return clon
 
-	def suponerSiguiente (juego):
-		pass
+	def copiarValoresJuego (juego, origen):
+		for indice in range (0, juego.tamanio**4):
+			cy = (indice // juego.tamanio**0) % juego.tamanio
+			cx = (indice // juego.tamanio**1) % juego.tamanio
+			gy = (indice // juego.tamanio**2) % juego.tamanio
+			gx = (indice // juego.tamanio**3) % juego.tamanio
+			casillero = origen.grupos[gx][gy].casilleros[cx][cy]
+			if (casillero.esConocido ()):
+				juego.establecerValor (gx, gy, cx, cy, casillero.valor)
+			else:
+				juego.grupos[gx][gy].casilleros[cx][cy].posibles = set (casillero.posibles)	
 
-	def suponerCasillero (juego, casillero, valor):
-		pass
 
 class Inconsistencia (Exception):
-	def __init__ (inconsistencia, casillero=None):
-		inconsistencia.casillero = casillero
+	def __init__ (inconsistencia, mensaje=""):
+		inconsistencia.mensaje = mensaje
 
 	def __str__ (inconsistencia):
-		cadena = "Inconsistencia en juego."
-		if (inconsistencia.casillero is not None):
-			 cadena += " Valor duplicado: " + str (inconsistencia.casillero.valor)
+		cadena = "Inconsistencia en juego: " + inconsistencia.mensaje
 		return cadena
 
 class CargadorJuego:
