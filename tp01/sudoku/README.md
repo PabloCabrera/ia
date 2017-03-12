@@ -26,11 +26,11 @@
 </pre>
 
 <h2>Como usar</h2>
-	<p>En primer lugar, es necesario escribir un archivo de entrada. En el directorio <em>juegos</em> hay varios ejemplos. Puede utilizarse <em>grilla3.txt</em> como plantilla.</p>
-	<p>Ejecutar desde la linea de commandos el script resolver.py con el nombre del archivo de juego como parametro.</p>
-	<h3>Ejemplo</h3>
-	<tt>user@host:/ia/sudoku$ python resolver.py juegos/08.txt</tt>
-	<p>Produciria la siguiente salida:</tt>
+<p>En primer lugar, es necesario escribir un archivo de entrada. En el directorio <em>juegos</em> hay varios ejemplos. Puede utilizarse <em>grilla3.txt</em> como plantilla.</p>
+<p>Ejecutar desde la linea de commandos el script resolver.py con el nombre del archivo de juego como parametro.</p>
+<h3>Ejemplo</h3>
+<pre>user@host:/ia/sudoku$ python resolver.py juegos/08.txt</pre>
+<p>Produciria la siguiente salida:</p>
 	
 <pre>Cargando Juego desde archivo juegos/08.txt
 . 9 7  . 6 4  . 5 .  
