@@ -253,45 +253,55 @@ class Juego:
 
 	def resolverAdivinando (juego, mostrarExcepcion=True):
 		resuelto = False
+		posicion = None
 		posibilidades = 2
-		while (not resuelto and (posibilidades <= juego.tamanio**2)):
-			indice = 0
-			if mostrarExcepcion: print ("Buscando reemplazos para casilleros con %i posibles valores" %(posibilidades))
-			while (not resuelto and (indice < juego.tamanio**4)):
-				cy = (indice // juego.tamanio**0) % juego.tamanio
-				cx = (indice // juego.tamanio**1) % juego.tamanio
-				gy = (indice // juego.tamanio**2) % juego.tamanio
-				gx = (indice // juego.tamanio**3) % juego.tamanio
-				if mostrarExcepcion: print "Adivinando valor para casillero [%i][%i][%i][%i]" %(gx,gy, cx,cy)
-				casillero = juego.grupos[gx][gy].casilleros[cx][cy]
-				if (not (casillero.esConocido ()) and (len (casillero.posibles) == posibilidades)):
-					lista_posibles = list (casillero.posibles)
-					indice_posible = 0
-					while (indice_posible < len (lista_posibles)):
-						valor_supuesto = lista_posibles[indice_posible]
-						clon = juego.clonar ()
-						clon.establecerValor (gx,gy, cx,cy, valor_supuesto)
-						global suposiciones
-						suposiciones += 1
-						if suposiciones % 1000 == 0:
-							print "Suposicion N" + str (suposiciones)
-							clon.imprimir()
-						#print ("Suponiendo valor %i en posicion [%i][%i][%i][%i]" %(valor_supuesto, gx,gy, cx,cy) )
-						#clon.imprimir()
-						try:
-							if (clon.resolver (mostrarExcepcion=False)):
-								juego.copiarValoresJuego (clon)
-								resuelto = True
-						except Inconsistencia as inconsistencia:
-							pass
-						indice_posible += 1
-				indice += 1
+		while ((posicion is None) and (posibilidades <= juego.tamanio**2)):
+			posicion=juego.casilleroConNPosibilidades (posibilidades)
 			posibilidades += 1
+		if (posicion is None):
+			return False
+
+		casillero = juego.grupos[posicion[0]][posicion[1]].casilleros[posicion[2]][posicion[3]]
+		lista_posibles = list (casillero.posibles)
+		indice_posible = 0
+		while (indice_posible < len (lista_posibles)):
+			valor_supuesto = lista_posibles[indice_posible]
+			clon = juego.clonar ()
+			clon.establecerValor (posicion[0],posicion[1], posicion[2],posicion[3], valor_supuesto)
+			global suposiciones
+			suposiciones += 1
+			if suposiciones % 1000 == 0:
+				print "Suposicion N" + str (suposiciones)
+				clon.imprimir()
+			#print ("Suponiendo valor %i en posicion [%i][%i][%i][%i]" %(valor_supuesto, gx,gy, cx,cy) )
+			#clon.imprimir()
+			try:
+				if (clon.resolver (mostrarExcepcion=False)):
+					juego.copiarValoresJuego (clon)
+					resuelto = True
+			except Inconsistencia as inconsistencia:
+				pass
+			indice_posible += 1
 		if (resuelto and mostrarExcepcion):
 			print "Juego resuelto."
 		if ((not resuelto) and mostrarExcepcion):
 			print "El juego no tiene solucion."
 		return resuelto;
+
+	def casilleroConNPosibilidades (juego, posibilidades):
+		encontrado = None
+		indice = 0
+		while ((encontrado is None) and (indice < juego.tamanio**4)):
+				cy = (indice // juego.tamanio**0) % juego.tamanio
+				cx = (indice // juego.tamanio**1) % juego.tamanio
+				gy = (indice // juego.tamanio**2) % juego.tamanio
+				gx = (indice // juego.tamanio**3) % juego.tamanio
+				probando = juego.grupos[gx][gy].casilleros[cx][cy]
+				if ((not probando.esConocido ()) and (len (probando.posibles) == posibilidades)):
+					encontrado = [gx, gy,  cx, cy]
+				indice += 1
+		return encontrado
+
 
 	def clonar (juego):
 		clon = Juego (juego.tamanio)
