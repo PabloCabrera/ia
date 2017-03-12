@@ -2,8 +2,6 @@ from sys import stdout
 import time
 import random
 
-suposiciones = 0
-
 class Casillero:
 	def __init__ (casillero, maximoNumero):
 		casillero.conocido = False
@@ -268,13 +266,6 @@ class Juego:
 			valor_supuesto = lista_posibles[indice_posible]
 			clon = juego.clonar ()
 			clon.establecerValor (posicion[0],posicion[1], posicion[2],posicion[3], valor_supuesto)
-			global suposiciones
-			suposiciones += 1
-			if suposiciones % 1000 == 0:
-				print "Suposicion N" + str (suposiciones)
-				clon.imprimir()
-			#print ("Suponiendo valor %i en posicion [%i][%i][%i][%i]" %(valor_supuesto, gx,gy, cx,cy) )
-			#clon.imprimir()
 			try:
 				if (clon.resolver (mostrarExcepcion=False)):
 					juego.copiarValoresJuego (clon)
