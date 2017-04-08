@@ -152,6 +152,7 @@ function on_preset_changed () {
 			inputs[i].disabled = true;
 		}
 	}
+	actualizar_vista ()
 }
 
 function on_train_pressed () {
@@ -165,6 +166,7 @@ function on_stop_pressed () {
 
 
 function actualizar_vista () {
+	actualizar_grafico ();
 	var peso_p, peso_q, peso_bias;
 	perceptron.pesos.forEach ((peso, obj) => {
 		switch (obj.name) {
@@ -178,7 +180,61 @@ function actualizar_vista () {
 	document.querySelector ("dd#dd_bias").textContent = peso_bias;
 }
 
+function actualizar_grafico () {
+	var matriz_entrenamiento = get_matriz_entrenamiento ();
+	var circulos = document.querySelectorAll ("svg circle");
+	for (var i=0; i<circulos.length && i<matriz_entrenamiento.length; i++) {
+		var circulo = circulos[i];
+		var p = matriz_entrenamiento[i][0];
+		var q = matriz_entrenamiento[i][1];
+		var clase = matriz_entrenamiento[i][2]>=1? "positive": "negative";
+		circulo.setAttribute ("cx", p);
+		circulo.setAttribute ("cy", -q);
+		circulo.setAttribute ("class", clase);
+	}
+	dibujar_linea ();
+}
+
+function dibujar_linea () {
+	var peso_p, peso_q, peso_bias;
+	perceptron.pesos.forEach ((peso, obj) => {
+		switch (obj.name) {
+			case "P": peso_p = peso; break;
+			case "Q": peso_q = peso; break;
+			case "Bias": peso_bias = peso; break;
+		}
+	});
+	var frontera = document.querySelector ("svg line.frontera");
+	var x1, x2, y1, y2;
+	if (peso_q == 0) {
+		var x = -peso_bias/peso_p;
+		x1 = x;
+		x2 = x;
+		y1 = -2;
+		y1 = 2;
+	} else {
+		var q = (p) => ((-p*peso_p - peso_bias)/peso_q);
+		x1 = -2;
+		x2 = 2;
+		y1 = -q (x1);
+		y2 = -q (x2);
+	}
+	frontera.setAttribute ("x1", x1);
+	frontera.setAttribute ("x2", x2);
+	frontera.setAttribute ("y1", y1);
+	frontera.setAttribute ("y2", y2);
+}
+
+function establecer_handlers () {
+	var inputs = document.querySelectorAll ("table.conjunto_entrenamiento input");
+	for (var i=0; i<inputs.length; i++) {
+		inputs[i].addEventListener ("change", function () {
+			actualizar_grafico ();
+		});
+	}
+}
 window.onload = function () {
+	establecer_handlers ();
 	on_preset_changed ();
 	actualizar_vista ();
 }
