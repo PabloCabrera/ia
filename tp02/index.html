@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="Perceptron.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<title>Perceptron</title>
+</head>
+<body>
+	<section class="entrenamiento">
+		<header>Entrenamiento</header>
+		<label for="preset">Función lógica: </label>
+		<select name="preset" onchange="on_preset_changed ()">
+			<option value="p">P</option>
+			<option value="q">Q</option>
+			<option value="and">P AND Q</option>
+			<option value="or" selected>P OR Q</option>
+			<option value="xor">P XOR Q</option>
+			<option value="np">NOT P</option>
+			<option value="nq">NOT Q</option>
+			<option value="nor">NOT (P OR Q)</option>
+			<option value="nand">NOT (P AND Q)</option>
+			<option value="custom">Personalizado</option>
+		</select>
+
+		<table class="conjunto_entrenamiento">
+			<thead>
+				<tr>
+					<th>P</th>
+					<th>Q</th>
+					<th>Salida</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input disabled type="number" step="0.1" value="0"></td>
+					<td><input disabled type="number" step="0.1" value="0"></td>
+					<td><input disabled type="number" step="1" min="0" max="1" value="0"></td>
+				</tr>
+				<tr>
+					<td><input disabled type="number" step="0.1" value="0"></td>
+					<td><input disabled type="number" step="0.1" value="1"></td>
+					<td><input disabled type="number" step="1" min="0" max="1" value="1"</td>
+				</tr>
+				<tr>
+					<td><input disabled type="number" step="0.1" value="1"></td>
+					<td><input disabled type="number" step="0.1" value="0"></td>
+					<td><input disabled type="number" step="1" min="0" max="1" value="1"</td>
+				</tr>
+				<tr>
+					<td><input disabled type="number" step="0.1" value="1"></td>
+					<td><input disabled type="number" step="0.1" value="1"></td>
+					<td><input disabled type="number" step="1" min="0" max="1" value="1"</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button id="button_entrenar" autocomplete="off" type="button" onclick="on_train_pressed ()">Entrenar</button>
+		<button id="button_detener"type="button" onclick="on_stop_pressed ()" style="display: none">Detener</button>
+	</section>
+
+	<section class="estado">
+		<header>Estado del perceptron</header>
+		<label id="label_estado"></label>
+		<dl>
+			<dt>entrada P</dt>
+			<dd id="dd_p"></dd>
+			<dt>entrada Q</dt>
+			<dd id="dd_q"></dd>
+			<dt>bias</dt>
+			<dd id="dd_bias"></dd>
+		</dl>
+	</section>
+</body>
