@@ -54,6 +54,11 @@
 				</tr>
 			</tbody>
 		</table>
+		<br>
+			<label for="factor_aprendizaje">Factor de aprendizaje: </label>
+			<input type="range" onchange="on_factor_aprendizaje_changed()" name="factor_aprendizaje" value="0.5" min="0.05" step="0.05" max="1">
+			<label id="label_factor_aprendizaje"></label>
+		<br>
 
 		<button id="button_entrenar" autocomplete="off" type="button" onclick="on_train_pressed ()">Entrenar</button>
 		<button id="button_detener"type="button" onclick="on_stop_pressed ()" style="display: none">Detener</button>
@@ -61,13 +66,29 @@
 
 	<section class="estado">
 		<header>Estado del perceptron</header>
-		<svg width="200" height="200" viewBox="-2 -2 4 4">
-			<line x1="0" x2="0" y1="4" y2="-4" />
-			<line x1="-4" x2="4" y1="0" y2="0" />
+		<svg width="200" height="200" viewBox="-2.1 -2.1 4.2 4.2">
+			<!-- Lineas de los ejes -->
+			<line class="axis" x1="0" x2="0" y1="2" y2="-2" />
+			<line class="axis" x1="-2" x2="2" y1="0" y2="0" />
+			<!-- Flechas de los ejes -->
+			<polyline class="axis" points="-1.9,-0.1 -2,0 -1.9,0.1" />
+			<polyline class="axis" points="1.9,-0.1 2,0 1.9,0.1" />
+			<polyline class="axis" points="-0.1,-1.9 0,-2 0.1,-1.9" />
+			<polyline class="axis" points="-0.1,1.9 0,2 0.1,1.9" />
+			<!-- Nombre de los ejes -->
+			<text x="1.6" y="-0.1" font-size="0.3">P</text>
+			<text x="0.1" y="-1.6" font-size="0.3">Q</text>
+			<!-- Marcas de unidad en los ejes -->
+			<line class="axis" x1="-1" x2="-1" y1="-0.1" y2="0.1" />
+			<line class="axis" x1="1" x2="1" y1="-0.1" y2="0.1" />
+			<line class="axis" x1="-0.1" x2="0.1" y1="-1" y2="-1" />
+			<line class="axis" x1="-0.1" x2="0.1" y1="1" y2="1" />
+			<!-- Circulos de observaciones -->
 			<circle cx="0" cy="0" r="0.15" />
 			<circle cx="0" cy="0" r="0.15" />
 			<circle cx="0" cy="0" r="0.15" />
 			<circle cx="0" cy="0" r="0.15" />
+			<!-- Frontera -->
 			<line class="frontera" x1="-99" x2="-99" y1="-99" y2="-99" />
 
 

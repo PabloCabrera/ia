@@ -22,12 +22,12 @@ function entrenamiento_conjunto (casos) {
 function entrenamiento_intensivo (casos, iteracion=1) {
 	document.querySelector ("#label_estado").textContent = "Aprendiendo... ("+iteracion+")";
 	if (entrenamiento_conjunto (casos)) {
-		console.log ("Perceptron esta aprendiendo");
+		// console.log ("Perceptron esta aprendiendo");
 		temporizador_entrenamiento = window.setTimeout (function () {
 			entrenamiento_intensivo (casos, iteracion+1)
 		}, ESPERA_ENTRENAMIENTO);
 	} else {
-		console.log ("Perceptron aprendio despues de "+ iteracion +" iteraciones");
+		// console.log ("Perceptron aprendio despues de "+ iteracion +" iteraciones");
 		document.querySelector ("#label_estado").textContent = "Perceptron aprendio despues de "+ iteracion +" iteraciones";
 		detener_entrenamiento();
 	}
@@ -92,17 +92,19 @@ function entrenamiento_intensivo (casos, iteracion=1) {
 
 function entrenar () {
 	var conjunto_entrenamiento = get_matriz_entrenamiento ();	
+	var factor_aprendizaje = document.querySelector ("input[name=factor_aprendizaje]").value;
 	document.querySelector ("button#button_entrenar").disabled = true;
 	document.querySelector ("button#button_detener").style.display="block";
-	console.log ("");
-	console.log ("ESTADO INCIAL DEL PERCEPTRON");
-	perceptron.imprimir_pesos ();
-	console.log ("");
-	console.log ("ENTRENAR PERCEPTRON");
+	// console.log ("");
+	// console.log ("ESTADO INCIAL DEL PERCEPTRON");
+	// perceptron.imprimir_pesos ();
+	// console.log ("");
+	// console.log ("ENTRENAR PERCEPTRON");
+	perceptron.factor_aprendizaje = factor_aprendizaje;
 	entrenamiento_intensivo (conjunto_entrenamiento);
-	console.log ("");
-	console.log ("ESTADO FINAL DEL PERCEPTRON");
-	perceptron.imprimir_pesos ();
+	// console.log ("");
+	// console.log ("ESTADO FINAL DEL PERCEPTRON");
+	//perceptron.imprimir_pesos ();
 }
 
 function detener_entrenamiento() {
@@ -153,6 +155,12 @@ function on_preset_changed () {
 		}
 	}
 	actualizar_vista ()
+}
+
+function on_factor_aprendizaje_changed () {
+	var fa = document.querySelector("input[name=factor_aprendizaje]").value;
+	var label = document.getElementById("label_factor_aprendizaje");
+	label.textContent = fa;
 }
 
 function on_train_pressed () {
@@ -236,5 +244,6 @@ function establecer_handlers () {
 window.onload = function () {
 	establecer_handlers ();
 	on_preset_changed ();
+	on_factor_aprendizaje_changed ();
 	actualizar_vista ();
 }

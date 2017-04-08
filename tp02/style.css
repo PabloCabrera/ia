@@ -16,7 +16,7 @@ header {
 	margin-top: 24px;
 }
 
-svg line {
+svg line.axis, svg polyline.axis {
 	stroke-width: 0.05;
 	stroke: #000;
 }
@@ -28,14 +28,14 @@ svg line.frontera {
 }
 
 svg circle {
-	stroke-width: 0.01;
+	stroke-width: 0.02;
 	stroke: #000;
 }
 
 svg circle.positive {
-	fill: #080;
+	fill: #0a0;
 }
 
 svg circle.negative {
-	fill: #800;
+	fill: #a00;
 }
