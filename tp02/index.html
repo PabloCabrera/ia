@@ -10,7 +10,7 @@
 	<section class="entrenamiento">
 		<header>Entrenamiento</header>
 		<label for="preset">Función lógica: </label>
-		<select name="preset" onchange="on_preset_changed ()">
+		<select autocomplete="off" name="preset" onchange="on_preset_changed ()">
 			<option value="p">P</option>
 			<option value="q">Q</option>
 			<option value="and">P AND Q</option>
@@ -55,13 +55,15 @@
 			</tbody>
 		</table>
 		<br>
-			<label for="factor_aprendizaje">Factor de aprendizaje: </label>
-			<input type="range" onchange="on_factor_aprendizaje_changed()" name="factor_aprendizaje" value="0.5" min="0.05" step="0.05" max="1">
+			<label for="factor_aprendizaje">Factor de aprendizaje: </label><br>
 			<label id="label_factor_aprendizaje"></label>
+			<input type="range" onchange="on_factor_aprendizaje_changed()" name="factor_aprendizaje" value="0.5" min="0.05" step="0.05" max="1">
 		<br>
 
-		<button id="button_entrenar" autocomplete="off" type="button" onclick="on_train_pressed ()">Entrenar</button>
-		<button id="button_detener"type="button" onclick="on_stop_pressed ()" style="display: none">Detener</button>
+		<div class="buttonbox">
+			<button id="button_entrenar" autocomplete="off" type="button" onclick="on_train_pressed ()">Entrenar</button>
+			<button id="button_detener" type="button" onclick="on_stop_pressed ()" style="display: none">Detener</button>
+		</div>
 	</section>
 
 	<section class="estado">
@@ -90,13 +92,10 @@
 			<circle cx="0" cy="0" r="0.15" />
 			<!-- Frontera -->
 			<line class="frontera" x1="-99" x2="-99" y1="-99" y2="-99" />
-
-
-
-			
 		</svg>
 		<br>
 		<label id="label_estado"></label>
+		<br>
 		<dl>
 			<dt>entrada P</dt>
 			<dd id="dd_p"></dd>
@@ -105,6 +104,10 @@
 			<dt>bias</dt>
 			<dd id="dd_bias"></dd>
 		</dl>
+		<br>
+		<div class="buttonbox">
+			<button id="button_aleatorizar" onclick="on_randomize_pressed()">Aleatorizar</button>
+		</div>
 	</section>
 
 </body>

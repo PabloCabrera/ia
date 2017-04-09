@@ -20,7 +20,7 @@ function entrenamiento_conjunto (casos) {
 }
 
 function entrenamiento_intensivo (casos, iteracion=1) {
-	document.querySelector ("#label_estado").textContent = "Aprendiendo... ("+iteracion+")";
+	document.querySelector ("#label_estado").textContent = "Aprendiendo... (época "+iteracion+")";
 	if (entrenamiento_conjunto (casos)) {
 		// console.log ("Perceptron esta aprendiendo");
 		temporizador_entrenamiento = window.setTimeout (function () {
@@ -28,7 +28,7 @@ function entrenamiento_intensivo (casos, iteracion=1) {
 		}, ESPERA_ENTRENAMIENTO);
 	} else {
 		// console.log ("Perceptron aprendio despues de "+ iteracion +" iteraciones");
-		document.querySelector ("#label_estado").textContent = "Perceptron aprendio despues de "+ iteracion +" iteraciones";
+		document.querySelector ("#label_estado").textContent = "Perceptron aprendió en "+ iteracion +" épocas";
 		detener_entrenamiento();
 	}
 }
@@ -94,6 +94,8 @@ function entrenar () {
 	var conjunto_entrenamiento = get_matriz_entrenamiento ();	
 	var factor_aprendizaje = document.querySelector ("input[name=factor_aprendizaje]").value;
 	document.querySelector ("button#button_entrenar").disabled = true;
+	document.querySelector ("select[name=preset]").disabled = true;
+	document.querySelector ("input[name=factor_aprendizaje]").disabled = true;
 	document.querySelector ("button#button_detener").style.display="block";
 	// console.log ("");
 	// console.log ("ESTADO INCIAL DEL PERCEPTRON");
@@ -108,6 +110,8 @@ function entrenar () {
 }
 
 function detener_entrenamiento() {
+	document.querySelector ("select[name=preset]").disabled = false;
+	document.querySelector ("input[name=factor_aprendizaje]").disabled = false;
 	document.querySelector ("button#button_entrenar").disabled = false;
 	document.querySelector ("button#button_detener").style.display="none";
 	window.clearTimeout (temporizador_entrenamiento);
@@ -171,7 +175,10 @@ function on_stop_pressed () {
 	detener_entrenamiento ();
 }
 
-
+function on_randomize_pressed () {
+	perceptron.entradas.forEach ((entrada) => perceptron.pesos.set (entrada, 1-2*Math.random()));
+	actualizar_vista ();
+}
 
 function actualizar_vista () {
 	actualizar_grafico ();
