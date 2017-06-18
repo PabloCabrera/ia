@@ -72,23 +72,31 @@ def dibujar_tabla_datos (datos, cabeceras):
 def dibujar_arbol_atributo (elementos, atributo):
 	txt = "\\Tree"
 	txt += generar_rama (elementos, atributo)
-	txt += "\\\\\n"
+	txt += "\\\\\\\n"
 	return txt
 
-def generar_rama (elementos, titulo=None):
+def generar_rama (elementos, titulo=None, framed=False):
 	txt = "["
+
 	if titulo is not None:
-		txt += ".%s " % titulo
+		if framed:
+			txt += ".\\framebox{%s} " % titulo
+		else:
+			txt += ".{%s} " % titulo
+
 	if isinstance (elementos, dict):
 		for clave in elementos:
-			txt += generar_rama (elementos[clave], clave)
+			frame = isinstance(elementos[clave], list)
+			txt += generar_rama (elementos[clave], clave, frame)
 			txt += " "
 	elif isinstance (elementos, list):
 		for elemento in elementos:
-			txt += generar_rama (elemento)
-			txt += " "
+			txt += "%s " % (generar_rama (elemento))
 	else:
-		return "{%s} " % str (elementos)
+		if titulo is not None:
+			txt += "\\framebox{%s} " % str (elementos) 
+		else:
+			return "{%s} " % str (elementos)
 	txt += "]"
 	return txt
 
@@ -110,46 +118,67 @@ def seleccionar_atributo_menor_entropia (datos_agrupados):
 
 def main ():
 	datos, cabeceras = cargar_datos ("datos.csv")
-	texto_documento = iterar_nivel (datos, cabeceras)
+	texto_documento = iterar_nivel (datos, cabeceras, {}, None)
 	imprimir_documento(texto_documento)
 
-def iterar_nivel (datos, cabeceras, camino=None):
+def iterar_nivel (datos, cabeceras, arbol_parcial, camino):
 	txt = ""
 	atributos_arboles = cabeceras[:]
 	atributos_arboles.remove("OBJETIVO")
 	agrupados = agrupar_por_atributo (datos, atributos_arboles, "OBJETIVO")
 	if camino is None:
-		txt += "\section {Iteración 1}\n"
+		txt += "\section {Datos de entrada}\n"
 	else:
 		txt_camino = ", ".join (map(lambda v: "=".join(v), camino))
-		txt += "\section {%s}\n" % txt_camino
+		txt += "\section {Subarbol %s}\n" % txt_camino
 	txt += dibujar_tabla_datos (datos, cabeceras)
 	for atributo in agrupados:
 		txt += generar_info_atributo (agrupados, atributo)
 	atributo_menor_entropia = seleccionar_atributo_menor_entropia (agrupados)
 	txt += "\subsection {Resultado de cálculo de entropía}\n"
 	txt += "El atributo con menor entropía es %s\\\\\n" % atributo_menor_entropia
-	txt += dividir_arbol_decision (datos, cabeceras, atributo_menor_entropia, camino)
-	#dibujar_arbol_decision (arbol)
+	txt += dividir_arbol_decision (datos, cabeceras, atributo_menor_entropia, arbol_parcial, camino)
 	return txt
 
-def dividir_arbol_decision (datos, cabeceras, atributo, camino):
+def dividir_arbol_decision (datos, cabeceras, atributo, arbol_parcial, camino):
 	txt = ""
 	valores_analizar = []
+	subarbol_actual = descender_subarbol (arbol_parcial, camino)
+	subarbol_actual[atributo] = {}
 	posibles_valores = listar_valores_atributo (datos, atributo)
 	for valor in posibles_valores:
 		elementos = filtrar_datos (datos, atributo, valor)
 		if (len (elementos) > 0) and valor_discrimina_datos (atributo, valor, datos):
 			objetivo = elementos[0]["OBJETIVO"]
+			subarbol_actual[atributo][valor] = objetivo
 			txt += "$%s = %s \implies {resultado} = %s$\\\\\n" % (atributo, valor, objetivo)
 		else:
+			subarbol_actual[atributo][valor] = {}
 			txt += "El valor %s del atributo %s no discrimina los datos. Se procederá a hacer el análisis del subarbol.\\\\\n" % (valor, atributo)
 			valores_analizar.append (valor)
+	txt += dibujar_arbol_parcial (arbol_parcial)
 	for valor in valores_analizar:
-		txt += analizar_subarbol (datos, cabeceras, atributo, valor, camino)
+		txt += analizar_subarbol (datos, cabeceras, atributo, valor, arbol_parcial, camino)
 	return txt
 
-def analizar_subarbol (datos, cabeceras, atributo, valor, camino):
+def descender_subarbol (arbol, camino):
+	rama = arbol
+	if camino is not None:
+		for par in camino:
+			atributo = par[0]
+			valor = par[1]
+			rama = rama[atributo][valor]
+	return rama
+
+def dibujar_arbol_parcial (elementos):
+	txt = "\subsection {Árbol de decisión generado}\n"
+	txt += "\\Tree"
+	txt += generar_rama (elementos, None)
+	txt += "\\\\\n"
+	return txt
+
+
+def analizar_subarbol (datos, cabeceras, atributo, valor, arbol_parcial, camino):
 	txt = ""
 	if camino is None:
 		camino = []
@@ -157,7 +186,7 @@ def analizar_subarbol (datos, cabeceras, atributo, valor, camino):
 		camino = camino[:]
 	camino.append ([atributo, valor])
 	datos_recortados = filtrar_datos (datos, atributo, valor)
-	txt += iterar_nivel (datos_recortados, cabeceras, camino)
+	txt += iterar_nivel (datos_recortados, cabeceras, arbol_parcial, camino)
 	return txt
 	
 def valor_discrimina_datos (atributo, valor, datos):
@@ -178,6 +207,10 @@ def imprimir_documento (texto_documento):
 \usepackage[table]{xcolor}
 \usepackage{tikz-qtree}
 \\begin {document}
+\\title {Árbol de Decisión. Problema del restaurante.}
+\\date {17 de Junio de 2017}
+\\author {Pablo Cabrera}
+\\maketitle
 %s
 \end {document}
 """ % texto_documento
