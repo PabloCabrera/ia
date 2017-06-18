@@ -20,7 +20,7 @@ def calcular_entropia (elem1, elem2):
 def formula_entropia (elem1, elem2):
 	total = int(elem1 + elem2)
 	calculado = calcular_entropia (elem1, elem2)
-	txt = "$-\\frac{{{1}}}{{{0}}} \log_2\left(\\frac{{{1}}}{{{0}}}\\right) -\\frac{{{2}}}{{{0}}} \log_2\left(\\frac{{{2}}}{{{0}}}\\right) \\approx {3:.3f}$".format(total, elem1, elem2, calculado)
+	txt = "\indent $-\\frac{{{1}}}{{{0}}} \log_2\left(\\frac{{{1}}}{{{0}}}\\right) -\\frac{{{2}}}{{{0}}} \log_2\left(\\frac{{{2}}}{{{0}}}\\right) \\approx {3:.3f}$".format(total, elem1, elem2, calculado)
 	return txt
 
 def calcular_entropia_total (atributo):
@@ -52,7 +52,7 @@ def formulas_entropia_atributo (elementos, titulo):
 
 def formula_entropia_total (atributo):
 	total_elementos = 0
-	txt = "$"
+	txt = "\indent $"
 	entropia_total = calcular_entropia_total (atributo)
 	formulas = []
 

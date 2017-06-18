@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from entropia import formulas_entropia_atributo
+from entropia import formulas_entropia_atributo, calcular_entropia_total
 
 def cargar_datos (nombre_archivo):
 	archivo = open (nombre_archivo, "r")
@@ -98,17 +98,37 @@ def generar_info_atributo (datos_agrupados, atributo):
 		txt += formulas_entropia_atributo (datos_agrupados[atributo], atributo)
 		return txt
 
+def seleccionar_atributo_menor_entropia (datos_agrupados):
+	atributo_menor = None
+	entropia_menor = 1.0
+	for atributo in datos_agrupados:
+		entropia_calculada = calcular_entropia_total (datos_agrupados[atributo])
+		if (entropia_calculada <= entropia_menor):
+			entropia_menor = entropia_calculada
+			atributo_menor = atributo
+	return atributo_menor
+
 def main ():
 	datos, cabeceras = cargar_datos ("datos.csv")
+	texto_documento = iterar_nivel (datos, cabeceras)
+	imprimir_documento(texto_documento)
+
+def iterar_nivel (datos, cabeceras, arbol=None, camino=None):
 	atributos_arboles = cabeceras[:]
 	atributos_arboles.remove("OBJETIVO")
 	agrupados = agrupar_por_atributo (datos, atributos_arboles, "OBJETIVO")
-	texto_documento = dibujar_tabla_datos (datos, cabeceras)
-	texto_documento += "\section {Iteración 1}\n"
+	txt = dibujar_tabla_datos (datos, cabeceras)
+	txt += "\section {Iteración 1}\n"
 	for atributo in agrupados:
-		texto_documento += generar_info_atributo (agrupados, atributo)
+		txt += generar_info_atributo (agrupados, atributo)
 	atributo_menor_entropia = seleccionar_atributo_menor_entropia (agrupados)
-	imprimir_documento(texto_documento)
+	txt += "\subsection {Resultado de cálculo de entropía}\n"
+	txt += "El atributo con menor entropía es %s\\\\\n" % atributo_menor_entropia
+	#arbol = dividir_arbol (arbol, camino, atributo_menor_entropia, agrupados[atributo_menor_entropia])
+	#dibujar_arbol_decision (arbol)
+	if camino is None:
+		camino = []
+	return txt
 
 def imprimir_documento (texto_documento):
 	print """
