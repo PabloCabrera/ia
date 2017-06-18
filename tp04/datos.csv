@@ -1,0 +1,13 @@
+Alternativa,Bar,Viernes,Hambre,Clientes,Precio,Lluvia,Reserva,Tipo,Espera,OBJETIVO
+Si,No,No,Si,Algunos,Alto,No,Si,Frances,0-10,SI
+Si,No,No,Si,Lleno,Bajo,No,No,Tailandes,30-60,NO
+No,Si,No,No,Algunos,Bajo,No,No,Hamburg,0-10,SI
+Si,No,Si,Si,Lleno,Bajo,Si,No,Tailandes,10-30,SI
+Si,No,Si,No,Lleno,Alto,No,Si,Frances,60,NO
+No,Si,No,Si,Algunos,Medio,Si,Si,Italiano,0-10,SI
+No,Si,No,No,Ninguno,Bajo,Si,No,Hamburg,0-10,NO
+No,No,No,Si,Algunos,Medio,Si,Si,Tailandes,0-10,SI
+No,Si,Si,No,Lleno,Bajo,Si,No,Hamburg,60,NO
+Si,Si,Si,Si,Lleno,Alto,No,Si,Italiano,10-30,NO
+No,No,No,No,Ninguno,Bajo,No,No,Tailandes,0-10,NO
+Si,Si,Si,Si,Lleno,Bajo,No,No,Hamburg,30-60,SI
