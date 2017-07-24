@@ -1,0 +1,7 @@
+Resolver los siguientes problemas sobre redes de creencias basados en el ejemplo del libro de texto:
+1)   P(((M v J) ^ A) | (H ^ ~S))
+2)   P(M ^ ~A | S)
+3)   P( ~(M v J) | H)
+4)   P( (S v H) | (A ^ J) )
+5)   P( ~(M v J) | (H v S))
+

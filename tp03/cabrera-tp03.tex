@@ -1,0 +1,446 @@
+\documentclass {article}
+\usepackage {amsmath}
+\begin {document}
+Resolver los siguientes problemas sobre redes de creencias basados en el ejemplo del libro de texto:
+\begin {enumerate}
+	\item $P(((M \lor J) \land A) \mid (H \land \neg S))$
+	\item $P (M \land \neg A \mid S)$
+	\item $P ( \neg(M \lor J) \mid H)$
+	\item $P ( (S \lor H) \mid (A \land J) )$
+	\item $P ( \neg(M \lor J) \mid (H \lor S))$
+\end {enumerate}
+
+\clearpage
+\section {Ejercicio 1}
+$$P(((M \lor J) \land A) \mid (H \land \neg S))$$
+$$\frac
+	{P(((M \lor J) \land A) \land (H \land \neg S))}
+	{P(H \land \neg S)}$$
+$$\frac
+	{P((M \land A \land H \land \neg S) \lor (J \land A \land H \land \neg S))}
+	{P(H \land \neg S)}$$
+$$\frac
+	{P((M \land A \land H \land \neg S) ) + P ( (J \land A \land H \land \neg S)) - P (M \land J \land A \land H \land \neg S))}
+	{P(H \land \neg S)}$$
+$$\frac
+	{(6.567 + 8.443 - 5.910) \cdot 10^{-4}}
+	{9.98 \cdot 10^{-4}} \approx 9.12 \cdot 10^{-1}$$
+\\
+\\
+$P((M \land A \land H \land \neg S)$\\
+	\indent $
+		= P(M \mid A)
+		\cdot P(A \mid H \land \neg S)
+		\cdot P (H)
+		\cdot P(\neg S)$\\
+	\indent $
+		= 0.7
+		\cdot 0.94
+		\cdot 0.001
+		\cdot 0.998 $\\
+	\indent $
+		\approx 6.567 \cdot 10^{-4}$
+\\
+\\
+$P((J \land A \land H \land \neg S) $\\
+	\indent $ 
+		= P(J \mid A)
+		\cdot P(A \mid H \land \neg S)
+		\cdot P (H)
+		\cdot P(\neg S)$\\
+	\indent $
+		= 0.9
+		\cdot 0.94 
+		\cdot 0.001 
+		\cdot 0.998 $\\
+	\indent $
+		\approx 8.443 \cdot 10^{-4} $
+\\
+\\
+$P((M \land J \land A \land H \land \neg S)$\\
+	\indent $ 
+		= P(J \mid A) 
+		\cdot P(M \mid A) 
+		\cdot P(A \mid H \land \neg S) 
+		\cdot P (H) 
+		\cdot P(\neg S)$\\
+	\indent$ 
+		= 0.9 
+		\cdot 0.7 
+		\cdot 0.94 
+		\cdot 0.001 
+		\cdot 0.998 $\\
+	\indent $
+		\approx 5.910 \cdot 10^{-4} $
+\\
+\\
+$P(H \land \neg S)$\\
+	\indent $ 
+		= P(H) 
+		\cdot P(\neg S)$\\
+	\indent 
+		$ = 0.01 
+		\cdot 0.998 $\\
+	\indent $
+		= 9.98 
+		\cdot 10^{-4}$
+
+\clearpage
+\section {Ejercicio 2}
+$$P (M \land \neg A \mid S)$$
+$$\frac
+	{P (M \land \neg A \land S)}
+	{P (S)}$$
+$$\frac
+	{1.419 \cdot 10^{-5}}
+	{2 \cdot 10^{-3}} \approx 7.09 \cdot 10^{-3}$$
+\\
+$P(M \land \neg A \land S)$\\
+	\indent $ 
+		= P(M \land \neg A \land H \land S) 
+		+ P(M \land \neg A \land \neg H \land S)$\\
+	\indent $ 
+		= 1 \cdot 10^{-9} 
+		+ 1.419 \cdot 10^{-5}$\\
+	\indent $ 
+		\approx 1.419 \cdot 10^{-5} $\\
+\\
+$P(M \land \neg A \land H \land S)$\\
+	\indent $ 
+		= P(M \mid \neg A) 
+		\cdot P(\neg A \mid H \land S) 
+		\cdot P (H) 
+		\cdot P (S)$\\
+	\indent $ 
+		= 0.01 
+		\cdot 0.05 
+		\cdot 0.001 
+		\cdot 0.002$\\
+	\indent $ =
+		 1 \cdot 10^{-9}$\\
+\\
+$P(M \land \neg A \land \neg H \land S)$\\
+	\indent $ 
+		= P(M \mid \neg A) 
+		\cdot P(\neg A \mid \neg H \land S) 
+		\cdot P (\neg H) 
+		\cdot P (S)$\\
+	\indent $ 
+		= 0.01 
+		\cdot 0.71 
+		\cdot 0.999 
+		\cdot 0.002$\\
+	\indent $ 
+		\approx 1.419 \cdot 10^{-5}$\\
+
+
+\clearpage
+\section {Ejercicio 3}
+$$P ( \neg(M \lor J) \mid H)$$
+$$\frac
+	{P (\neg M \land \neg J \land H)}
+	{P(H)}$$\\
+$$\frac
+	{8.461 \cdot 10^{-5}}
+	{1\cdot 10^{-3}}
+	\approx 8.46 \cdot 10^{-2}$$\\
+\\
+$P (\neg M \land \neg J \land H) $\\
+	\indent $ 
+		= P (\neg M \land \neg J \land A \land H \land S)
+		+ P (\neg M \land \neg J \land \neg A \land H \land S) 
+		+ P (\neg M \land \neg J \land A \land H \land S) 
+		+ P (\neg M \land \neg J \land \neg A \land H \land S)$\\
+	\indent $
+		\approx 5.7 \cdot 10^{-8} 
+		+ 9.405 \cdot 10^{-8} 
+		+ 2.814 \cdot 10^{-5} 
+		+ 5.632 \cdot 10^{-5}$\\
+	\indent $ 
+		\approx 8.461 \cdot 10^{-5}$\\
+\\
+$P (\neg M \land \neg J \land A \land H \land S)$\\
+	\indent $ 
+		= P(\neg M \mid A) 
+		\cdot P (\neg J \mid A) 
+		\cdot P (A \mid H \land S) 
+		\cdot P (H) 
+		\cdot P (S) $\\
+	\indent $ 
+		= 0.3 
+		\cdot 0.1 
+		\cdot 0.95 
+		\cdot 0.001 
+		\cdot 0.002$\\
+	\indent $
+		\approx 5.7 \cdot 10^{-8}$\\
+\\
+$P (\neg M \land \neg J \land \neg A \land H \land S)$\\
+	\indent $ 
+		= P(\neg M \mid \neg A) 
+		\cdot P (\neg J \mid \neg A) 
+		\cdot P (\neg A \mid H \land S) 
+		\cdot P (H) 
+		\cdot P (S) $\\
+	\indent $ 
+		= 0.99 
+		\cdot 0.95
+		\cdot 0.05
+		\cdot 0.001
+		\cdot 0.002$\\
+	\indent $ \approx 9.405 \cdot 10^{-8}$\\
+\\
+$P (\neg M \land \neg J \land A \land H \land \neg S)$\\
+	\indent $ 
+		= P(\neg M \mid A) 
+		\cdot P (\neg J \mid A) 
+		\cdot P (A \mid H \land \neg S) 
+		\cdot P (H) 
+		\cdot P (\neg S) $\\
+	\indent $ 
+		= 0.3 
+		\cdot 0.1 
+		\cdot 0.94 
+		\cdot 0.001 
+		\cdot 0.998$\\
+	\indent $ \approx 2.814 \cdot 10^{-5} $\\
+\\
+$P (\neg M \land \neg J \land \neg A \land H \land \neg S)$\\
+	\indent $ 
+		= P(\neg M \mid \neg A) 
+		\cdot P (\neg J \mid \neg A) 
+		\cdot P (\neg A \mid H \land \neg S) 
+		\cdot P (H) 
+		\cdot P (\neg S) $\\
+	\indent $ 
+		= 0.99 
+		\cdot 0.95
+		\cdot 0.06
+		\cdot 0.001 
+		\cdot 0.998$\\
+	\indent $ 
+		\approx 5.632 \cdot 10^{-5}$\\
+
+
+\clearpage
+\section {Ejercicio 4}
+
+$$P ( (S \lor H) \mid (A \land J) )$$
+$$\frac
+	{P ( (S \lor H) \land (A \land J) )}
+	{P (A \land J)}$$
+$$\frac
+	{P ( (S \land A \land J) \lor (H \land A \land J) )}
+	{P(A \land J)}$$
+$$\frac
+	{P (S \land A \land J) + P(H \land A \land J) -P(S\land H \land A \land J)}
+	{P(A \land J) )}$$\\
+$$\frac
+	{5.232 \cdot 10^{-4} + 8.460 \cdot 10^{-4} - 1.71 \cdot 10^{-6}}
+	{2.265 \cdot 10^{-3}}$$\\
+$$\frac
+	{1.367 \cdot 10^{-3}}
+	{2.265 \cdot 10^{-3}}
+	\approx 6.04 \cdot 10^{-1}$$\\
+\\
+$P (S \land A \land J)$\\
+	\indent $ 
+		= P (J \land A \land H \land S) 
+		+ P (J \land A \land \neg H \land S)$\\
+	\indent $ 
+		\approx 1.71 \cdot 10^{-6} 
+		+ 5.215 \cdot 10^{-4} $\\
+	\indent $ 
+		\approx 5.232 \cdot 10^{-4}$\\
+\\
+$P (J \land A \land H \land S)$\\
+	\indent $ 
+		= P(J \mid A) 
+		\cdot P(A \mid H \land S) 
+		\cdot P (H) 
+		\cdot P (S) $\\
+	\indent $ 
+		= 0.9 
+		\cdot 0.95 
+		\cdot 0.001 
+		\cdot 0.002$\\
+	\indent $ 
+		\approx 1.71 
+		\cdot 10^{-6}$\\
+\\
+$P (J \land A \land \neg H \land S)$\\
+	\indent $ 
+		= P(J \mid A) 
+		\cdot P(A \mid \neg H \land S) 
+		\cdot P (\neg H) 
+		\cdot P (S) $\\
+	\indent $ 
+		= 0.9 
+		\cdot 0.29 
+		\cdot 0.999 
+		\cdot 0.002$\\
+	\indent $ 
+		\approx 5.215 \cdot 10^{-4}$\\
+\\
+$P (H \land A \land J)$\\
+	\indent $ 
+		= P (J \land A \land H \land S) 
+		+ P (J \land A \land H \land \neg S)$\\
+	\indent $ 
+		\approx 1.71 \cdot 10^{-6} 
+		+ 8.443 \cdot 10^{-4} $\\
+	\indent $ 
+		\approx 8.460 \cdot 10^{-4}$\\
+\\
+$P (A \land J)$\\
+	\indent $
+		= P(J \land A \land H \land S)
+		+ P(J \land A \land \neg H \land S)
+		+ P(J \land A \land H \land \neg S)
+		+ P(J \land A \land \neg H \land \neg S)
+	 $\\
+ 	\indent $
+		= 1.71 \cdot 10^{-6}
+		+ 5.215 \cdot 10^{-4}
+		+ 8.443 \cdot 10^{-4}
+		+ 8.973 \cdot 10^{-4}
+	 $\\
+	 \indent $
+	 	\approx 2.265 \cdot 10^{-3}
+	 $\\
+\\
+$P (J \land A \land \neg H \land \neg S)$\\
+	\indent $
+		= P (J \mid A)
+		\cdot P (A \mid \neg H \land \neg S)
+		\cdot P (\neg H)
+		\cdot P (\neg S)$\\
+	\indent $
+		= 0.9
+		\cdot 0.001
+		\cdot 0.999
+		\cdot 0.998
+		$\\
+	\indent $
+		\approx 8.973 \cdot 10^{-4}$
+
+\clearpage
+\section {Ejercicio 5}
+$$P ( \neg(M \lor J) \mid (H \lor S))$$
+
+$$\frac
+	{P (( \neg M \land \neg J) \land (H \lor S))}
+	{P(H \lor S)}$$
+
+$$\frac
+	{P (( \neg M \land \neg J \land H) \lor (\neg M \land \neg J \land S))}
+	{P(H \lor S)}$$
+
+$$\frac
+	{P ( \neg M \land \neg J \land H) + P (\neg M \land \neg J \land S) - P(\neg M \land \neg J \land H \land S)}
+	{P (H) + P (S) -P (H \land S)}$$
+\\
+
+$$\frac
+	{8.461 \cdot 10^{-5} + 1.351 \cdot 10^{-3} - 1.747 \cdot 10^{-5}}
+	{1 \cdot 10^{-3} + 2 \cdot 10^{-3} - 2 \cdot 10^{-6}}$$
+\\
+
+$$\frac
+	{1.418 \cdot 10^{-3}}
+	{2.998 \cdot 10^{-3}}
+	\approx 4.73 \cdot 10^{-1}
+	$$
+\\
+$P(\neg M \land \neg J \land S)$\\
+	\indent $
+		= P(\neg M \land \neg J \land A \land S)
+		+ P(\neg M \land \neg J \land \neg A \land S)
+		$\\
+	\indent $\approx 1.744 \cdot 10^{-5} + 1.334 \cdot 10^{-3}$\\
+	\indent $\approx 1.351 \cdot 10^{-3}$\\
+\\
+$P(\neg M \land \neg J \land A \land S)$\\
+	\indent $
+		= P(\neg M \land \neg J \land A \land H \land S) 
+		+ P(\neg M \land \neg J \land A \land \neg H \land S)$\\	\indent $
+		= 5.7 \cdot 10^{-8}
+		+ 1.738 \cdot 10^{-5}$\\
+	\indent $ 1.744 \cdot 10^{-5} $\\
+\\
+$P(\neg M \land \neg J \land A \land \neg H \land S)$\\
+	\indent $ 
+		= P (\neg M \mid A)
+		\cdot P (\neg J \mid A)
+		\cdot P (A \mid \neg H \land S)
+		\cdot P (\neg H)
+		\cdot P (S)
+		$\\
+	\indent $
+		= 0.3
+		\cdot 0.1
+		\cdot 0.29
+		\cdot 0.999
+		\cdot 0.002
+	$\\
+	\indent $ \approx 1.738 \cdot 10^{-5}$\\
+\\
+$P(\neg M \land \neg J \land \neg A \land S)$\\
+	\indent $
+		= P(\neg M \land \neg J \land \neg A \land H \land S) 
+		+ P(\neg M \land \neg J \land \neg A \land \neg H \land S)$\\
+	\indent $
+		\approx 9.405 \cdot 10^{-8}
+		+ 1.334 \cdot 10^{-3}
+		$\\
+	\indent $\approx 1.334 \cdot 10^{-3}$\\
+\\
+$P(\neg M \land \neg J \land \neg A \land H \land S)$\\
+	\indent $
+		= P(\neg M \mid \neg A)
+		\cdot P(\neg J \mid \neg A)
+		\cdot P(\neg A \mid H \land S)
+		\cdot P(H)
+		\cdot P(S)
+		$\\
+	\indent $
+		= 0.99
+		\cdot 0.95
+		\cdot 0.05
+		\cdot 0.001
+		\cdot 0.002
+		$\\
+	\indent $
+		\approx 9.405 \cdot 10 ^{-8}
+	$
+\\
+$P(\neg M \land \neg J \land \neg A \land \neg H \land S)$\\
+	\indent $
+		= P(\neg M \mid \neg A)
+		\cdot P(\neg J \mid \neg A)
+		\cdot P(\neg A \mid \neg H \land S)
+		\cdot P(\neg H)
+		\cdot P(S)
+		$\\
+	\indent $
+		= 0.99
+		\cdot 0.95
+		\cdot 0.71
+		\cdot 0.999
+		\cdot 0.002
+	$\\
+	\indent $
+		\approx 1.334 \cdot 10^{-3}
+	$\\
+\\
+$P(\neg M \land \neg J \land H \land S)$\\
+	\indent $
+		= P(\neg M \land \neg J \land A \land H \land S)
+		+ P(\neg M \land \neg J \land \neg A\land H \land S)
+		$\\
+	\indent $
+		\approx 1.738 \cdot 10^{-5}
+		+ 9.405 \cdot 10^{-8}
+		$\\
+	\indent $\approx 1.747 \cdot 10^{-5}$
+\end {document}
